@@ -1,0 +1,10 @@
+# Development files
+decoded_app.js
+مصاريفي_backup.html
+
+# Node
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
