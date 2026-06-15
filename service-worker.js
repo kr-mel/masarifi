@@ -1,4 +1,4 @@
-const CACHE_NAME = 'masarifi-v5';
+const CACHE_NAME = 'masarifi-v6';
 const urlsToCache = [
   './مصاريفي.html',
   './manifest.json',
@@ -27,23 +27,34 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
+// Network-first for the page/HTML so users ALWAYS get the latest version when
+// online (the old cache-first strategy trapped users on stale builds). Static
+// assets (icons/manifest) stay cache-first for speed.
 self.addEventListener('fetch', event => {
+  const req = event.request;
+  if (req.method !== 'GET') return;
+  const isPage = req.mode === 'navigate' ||
+                 req.destination === 'document' ||
+                 /\.html(\?|$)/.test(req.url);
+  if (isPage) {
+    event.respondWith(
+      fetch(req).then(res => {
+        if (res && res.status === 200) {
+          const copy = res.clone();
+          caches.open(CACHE_NAME).then(c => c.put(req, copy));
+        }
+        return res;
+      }).catch(() => caches.match(req).then(r => r || caches.match('./مصاريفي.html')))
+    );
+    return;
+  }
   event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        if (response) return response;
-        return fetch(event.request).then(fetchResponse => {
-          if (fetchResponse && fetchResponse.status === 200 && fetchResponse.type === 'basic') {
-            const responseToCache = fetchResponse.clone();
-            caches.open(CACHE_NAME).then(cache => {
-              cache.put(event.request, responseToCache);
-            });
-          }
-          return fetchResponse;
-        });
-      })
-      .catch(() => {
-        return caches.match('./مصاريفي.html');
-      })
+    caches.match(req).then(cached => cached || fetch(req).then(res => {
+      if (res && res.status === 200 && res.type === 'basic') {
+        const copy = res.clone();
+        caches.open(CACHE_NAME).then(c => c.put(req, copy));
+      }
+      return res;
+    }))
   );
 });
