@@ -1,4 +1,4 @@
-const CACHE_NAME = 'masarifi-v4';
+const CACHE_NAME = 'masarifi-v5';
 const urlsToCache = [
   './مصاريفي.html',
   './manifest.json',
