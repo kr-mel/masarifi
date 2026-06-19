@@ -1,4 +1,4 @@
-const CACHE_NAME = 'masarifi-v22';
+const CACHE_NAME = 'masarifi-v23';
 const urlsToCache = [
   './مصاريفي.html',
   './manifest.json',
@@ -9,8 +9,10 @@ const urlsToCache = [
 
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
+    caches.open(CACHE_NAME).then(cache =>
+      // Per-item so one failed/404 asset never aborts the whole install (offline support survives)
+      Promise.allSettled(urlsToCache.map(u => cache.add(u)))
+    )
   );
   self.skipWaiting();
 });

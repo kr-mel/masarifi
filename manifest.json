@@ -6,6 +6,7 @@
   "start_url": "./مصاريفي.html",
   "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#F7F3EC",
   "theme_color": "#D97706",
   "orientation": "portrait",
