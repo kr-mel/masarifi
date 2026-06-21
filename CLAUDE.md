@@ -13,6 +13,7 @@ Live: https://kr-mel.github.io/masarifi/مصاريفي.html
 4. **Batch many edits per deploy.** GitHub Pages takes ~60–90s to publish regardless, so group fixes and deploy once. Wait with ONE background `sleep 80`; don't poll.
 5. **Don't spawn agents that read the whole file** unless the user explicitly asks for a deep audit — each agent re-reads the 361KB source.
 6. Don't re-read a file you just edited; Edit fails loudly if it didn't apply.
+7. **Spend tokens on the work, not prose.** Default to doing over explaining. No long status reports, no scorecards, no re-explaining the plan — keep replies short. Only write detailed explanations when the user explicitly asks. Skip recapping what you just did unless asked.
 
 ## Build / deploy workflow
 - **Edit only `decoded_app.js`** (the real source) + support files. `مصاريفي.html` is generated — never hand-edit the `_all` bundle.
