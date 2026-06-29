@@ -1,0 +1,10 @@
+name = "masarifi-ai"
+main = "src/index.js"
+compatibility_date = "2024-11-01"
+
+# Must equal the site origin for CORS.
+[vars]
+ALLOWED_ORIGIN = "https://kr-mel.github.io"
+
+# Secrets (set via wrangler, never committed):
+#   printf '%s' 'KEY1,KEY2' | npx wrangler secret put GEMINI_API_KEYS

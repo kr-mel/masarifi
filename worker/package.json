@@ -1,0 +1,11 @@
+{
+  "name": "masarifi-ai",
+  "private": true,
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev"
+  },
+  "devDependencies": {
+    "wrangler": "^3"
+  }
+}
